@@ -1,0 +1,12 @@
+{
+  "name": "silverstripe-modules/facetfilters",
+  "description": "facet filters",
+  "type": "silverstripe-module",
+  "keywords": ["facet", "filters"],
+  "require": {
+    "silverstripe/framework": ">=3.1",
+    "silverstripe/cms": ">=3.1",
+    "ruflin/elastica": "^5.2",
+    "silverstripe/multivaluefield": "^2.4"
+  }
+}
