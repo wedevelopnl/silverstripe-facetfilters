@@ -31,12 +31,14 @@ class FilterPageControllerExtension extends Extension {
                 $bool->addMust($filterQuery);
             }
 
-            $terms = new Elastica\Aggregation\Terms($filter->ID);
-            $terms->setField($filter->FieldName);
-            $terms->setOrder('_term', 'asc');
-            $terms->setMinimumDocumentCount(0);
+            if ($filter->createBucket()) {
+                $terms = new Elastica\Aggregation\Terms($filter->ID);
+                $terms->setField($filter->FieldName);
+                $terms->setOrder('_term', 'asc');
+                $terms->setMinimumDocumentCount(0);
 
-            $query->addAggregation($terms);
+                $query->addAggregation($terms);
+            }
         }
 
         $query->setQuery($bool);
@@ -48,8 +50,10 @@ class FilterPageControllerExtension extends Extension {
     {
         $filters = [];
         foreach ($this->owner->Filters() as $filter) {
-            foreach ($this->list->getResultSet()->getAggregation($filter->ID)['buckets'] as $option) {
-                $filter->addOption($option['key'], "{$option['key']} ({$option['doc_count']})");
+            if ($filter->createBucket()) {
+                foreach ($this->list->getResultSet()->getAggregation($filter->ID)['buckets'] as $option) {
+                    $filter->addOption($option['key'], "{$option['key']} ({$option['doc_count']})");
+                }
             }
             $filters[] = $filter;
         }

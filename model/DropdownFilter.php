@@ -33,4 +33,9 @@ class DropdownFilter extends Filter {
         return $this->options;
     }
 
+    public function createBucket()
+    {
+        return true;
+    }
+
 }

@@ -47,4 +47,9 @@ class Filter extends DataObject {
         return false;
     }
 
+    public function createBucket()
+    {
+        return false;
+    }
+
 }
