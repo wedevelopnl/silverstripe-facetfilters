@@ -19,6 +19,8 @@ class FilterIndexItemExtension extends DataExtension {
             $this->owner->updateElasticaFields($fields);
         }
 
+        $this->owner->extend('updateElasticaFields', $fields);
+
         return $fields;
     }
 
@@ -43,6 +45,8 @@ class FilterIndexItemExtension extends DataExtension {
         if (method_exists($this->owner, 'updateElasticaDocumentData')) {
             $this->owner->updateElasticaDocumentData($data);
         }
+
+        $this->owner->extend('updateElasticaDocumentData', $data);
 
         return new \Elastica\Document(implode('_', [$this->owner->ClassName, $this->owner->ID]), $data);
     }
