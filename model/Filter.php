@@ -1,8 +1,6 @@
 <?php
 class Filter extends DataObject {
 
-    protected $options = [];
-
     private static $db = [
         'Name' => 'Varchar',
         'FieldName' => 'Varchar',
@@ -14,6 +12,7 @@ class Filter extends DataObject {
     ];
 
     private static $summary_fields = [
+        'ClassName',
         'Name',
         'FieldName'
     ];
@@ -31,32 +30,21 @@ class Filter extends DataObject {
 
     public function getElasticaQuery()
     {
-        $query = false;
-        $values = Controller::curr()->getRequest()->getVar($this->FieldName);
-        $values = is_array($values) ? $values : array();
-
-        $this->extend('updateValues', $values);
-
-        if ($values) {
-            $query = new Elastica\Query\Terms($this->FieldName, $values);
-        }
-
-        return $query;
+        return false;
     }
 
     public function getFormFields()
     {
-        return [
-            new CheckboxSetField($this->FieldName, $this->Name, $this->getOptions())
-        ];
+        return [];
     }
 
-    public function addOption($key, $value) {
-        $this->options[$key] = $value;
-    }
+    public function canCreate($member = null)
+    {
+        if ($this->class != __CLASS__) {
+            return true;
+        }
 
-    protected function getOptions() {
-        return $this->options;
+        return false;
     }
 
 }

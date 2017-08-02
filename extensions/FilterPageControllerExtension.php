@@ -25,22 +25,6 @@ class FilterPageControllerExtension extends Extension {
             $bool->addMust($multiMatch);
         }
 
-        if (!empty($vars['Location'])) {
-            $cache = SS_Cache::factory('googlemapsgeocode');
-            $cacheKey = sha1($vars['Location']);
-            if (!($data = $cache->load($cacheKey))) {
-                $data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$vars['Location']}&key=AIzaSyDXgYLgmIgRgoUqwWH1BZwsO1YLMyNWqRA");
-
-                $cache->save($data, $cacheKey);
-            }
-
-            $data = Convert::json2array($data);
-            $location = $data['results'][0]['geometry']['location'];
-            $distance = !empty($vars['Distance']) ? $vars['Distance'] : '10km';
-
-            $bool->addMust(new Elastica\Query\GeoDistance('Location', "{$location['lat']},{$location['lng']}", $distance));
-        }
-
         foreach ($this->owner->Filters() as $filter) {
             $filterQuery = $filter->getElasticaQuery();
             if ($filterQuery) {
