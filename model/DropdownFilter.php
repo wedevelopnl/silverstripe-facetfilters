@@ -6,7 +6,7 @@ class DropdownFilter extends Filter {
     public function getElasticaQuery()
     {
         $query = false;
-        $values = Controller::curr()->getRequest()->getVar($this->FieldName);
+        $values = Controller::curr()->getRequest()->getVar($this->ID);
         $values = is_array($values) ? $values : array();
 
         $this->extend('updateValues', $values);
@@ -21,7 +21,7 @@ class DropdownFilter extends Filter {
     public function getFormFields()
     {
         return [
-            new CheckboxSetField($this->FieldName, $this->Name, $this->getOptions())
+            new CheckboxSetField($this->ID, $this->Name, $this->getOptions())
         ];
     }
 

@@ -4,8 +4,8 @@ class GeoFilter extends Filter {
     public function getElasticaQuery()
     {
         $query = false;
-        $location = Controller::curr()->getRequest()->getVar("{$this->FieldName}_Location");
-        $distance = Controller::curr()->getRequest()->getVar("{$this->FieldName}_Distance");
+        $location = Controller::curr()->getRequest()->getVar("{$this->ID}_Location");
+        $distance = Controller::curr()->getRequest()->getVar("{$this->ID}_Distance");
 
         if ($location) {
             $cache = SS_Cache::factory('googlemapsgeocode');
@@ -20,7 +20,7 @@ class GeoFilter extends Filter {
             $location = $data['results'][0]['geometry']['location'];
             $distance = !empty($distance) ? $distance : '10km';
 
-            $query = new Elastica\Query\GeoDistance('Location', "{$location['lat']},{$location['lng']}", $distance);
+            $query = new Elastica\Query\GeoDistance($this->FieldName, "{$location['lat']},{$location['lng']}", $distance);
         }
 
         return $query;
@@ -29,8 +29,8 @@ class GeoFilter extends Filter {
     public function getFormFields()
     {
         return [
-            TextField::create("{$this->FieldName}_Location", 'Plaats/postcode'),
-            DropdownField::create("{$this->FieldName}_Distance", 'Afstand', [
+            TextField::create("{$this->ID}_Location", 'Plaats/postcode'),
+            DropdownField::create("{$this->ID}_Distance", 'Afstand', [
                 '10km' => '10 Km',
                 '20km' => '20 Km',
                 '50km' => '50 Km',
