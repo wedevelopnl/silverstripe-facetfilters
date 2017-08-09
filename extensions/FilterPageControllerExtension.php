@@ -71,7 +71,7 @@ class FilterPageControllerExtension extends Extension {
     {
         $list = new PaginatedList($this->list);
         $list->setRequest($this->owner->getRequest());
-        $list->setPageLength(6);
+        $list->setPageLength(9);
 
         return $list;
     }

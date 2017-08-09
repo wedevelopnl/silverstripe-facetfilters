@@ -1,5 +1,5 @@
 <?php
-class DropdownFilter extends Filter {
+class OptionFilter extends Filter {
 
     protected $options = [];
 
