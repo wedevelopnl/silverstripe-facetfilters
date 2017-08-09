@@ -12,7 +12,7 @@ class FilterForm extends Form {
         }
 
         $actions = new FieldList(
-            FormAction::create('doFilter', 'Zoeken')
+            FormAction::create('doFilter', 'Zoeken')->setName('')
         );
 
         parent::__construct($controller, $name, $fields, $actions);
