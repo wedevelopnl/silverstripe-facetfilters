@@ -3,17 +3,13 @@ class FilterForm extends Form {
 
     public function __construct($controller, $name, $filters)
     {
-        $fields = new FieldList(
-            TextField::create('Query', 'Zoekterm')
-        );
+        $fields = new FieldList();
 
         foreach ($filters as $filter) {
-            $fields->merge($filter->getFormFields());
+            $fields->push($filter->getFormField());
         }
 
-        $actions = new FieldList(
-            FormAction::create('doFilter', 'Zoeken')->setName('')
-        );
+        $actions = new FieldList();
 
         parent::__construct($controller, $name, $fields, $actions);
 

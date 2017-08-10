@@ -1,5 +1,5 @@
 <?php
-class GeoFilter extends Filter {
+class GeoDistanceFilter extends Filter {
 
     public function getElasticaQuery()
     {
@@ -26,19 +26,9 @@ class GeoFilter extends Filter {
         return $query;
     }
 
-    public function getFormFields()
+    public function getFormField()
     {
-        return [
-            TextField::create("{$this->ID}_Location", 'Plaats/postcode'),
-            DropdownField::create("{$this->ID}_Distance", 'Afstand', [
-                '10km' => '10 Km',
-                '20km' => '20 Km',
-                '50km' => '50 Km',
-                '100km' => '100 Km',
-                '150km' => '150 Km',
-                '200km' => '200 Km',
-            ])
-        ];
+        return new GeoDistanceFilterField($this->ID);
     }
 
 }

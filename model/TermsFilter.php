@@ -1,5 +1,5 @@
 <?php
-class OptionFilter extends Filter {
+class TermsFilter extends Filter {
 
     protected $options = [];
 
@@ -18,11 +18,9 @@ class OptionFilter extends Filter {
         return $query;
     }
 
-    public function getFormFields()
+    public function getFormField()
     {
-        return [
-            new CheckboxSetField($this->ID, $this->Name, $this->getOptions())
-        ];
+        return new TermsFilterField($this->ID, $this->Name, $this->getOptions());
     }
 
     public function addOption($key, $value) {

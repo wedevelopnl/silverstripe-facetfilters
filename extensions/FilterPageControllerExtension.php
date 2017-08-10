@@ -12,18 +12,8 @@ class FilterPageControllerExtension extends Extension {
 
     public function onAfterInit()
     {
-        $vars = $this->owner->getRequest()->getVars();
-
         $query = new Elastica\Query();
         $bool = new Elastica\Query\BoolQuery();
-
-        if (!empty($vars['Query'])) {
-            $multiMatch = new Elastica\Query\MultiMatch();
-            $multiMatch->setQuery($vars['Query']);
-            $multiMatch->setFields(['Title', 'Content']);
-
-            $bool->addMust($multiMatch);
-        }
 
         foreach ($this->owner->Filters() as $filter) {
             $filterQuery = $filter->getElasticaQuery();
