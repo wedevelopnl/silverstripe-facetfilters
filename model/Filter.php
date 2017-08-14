@@ -28,16 +28,6 @@ class Filter extends DataObject {
         return $fields;
     }
 
-    public function getElasticaQuery()
-    {
-        return false;
-    }
-
-    public function getFormFields()
-    {
-        return [];
-    }
-
     public function canCreate($member = null)
     {
         if ($this->class != __CLASS__) {

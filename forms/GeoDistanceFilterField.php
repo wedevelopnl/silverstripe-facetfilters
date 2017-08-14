@@ -19,4 +19,14 @@ class GeoDistanceFilterField extends FormField {
         parent::__construct($name);
     }
 
+    public function getSearchField()
+    {
+        return $this->searchField;
+    }
+
+    public function getDistanceField()
+    {
+        return $this->distanceField;
+    }
+
 }

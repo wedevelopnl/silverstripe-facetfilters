@@ -1,6 +1,10 @@
 <?php
 class TermsFilter extends Filter {
 
+    private static $db = [
+        'Collapsed' => 'Boolean'
+    ];
+
     protected $options = [];
 
     public function getElasticaQuery()
@@ -20,7 +24,7 @@ class TermsFilter extends Filter {
 
     public function getFormField()
     {
-        return new TermsFilterField($this->ID, $this->Name, $this->getOptions());
+        return new TermsFilterField($this->ID, $this->Name, $this->getOptions(), $this->Collapsed);
     }
 
     public function addOption($key, $value) {
