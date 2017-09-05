@@ -23,6 +23,7 @@ class Filter extends DataObject {
     {
         $fields = parent::getCMSFields();
 
+        $fields->removeByName('Sort');
         $fields->removeByName('PageID');
 
         return $fields;

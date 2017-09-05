@@ -9,8 +9,18 @@ class TermsFilterField extends CheckboxSetField {
         parent::__construct($name, $title, $source, $value, $form);
     }
 
+    public function FieldHolder($properties = array())
+    {
+        if ($this->Value()) {
+            $this->collapsed = false;
+        }
+
+        return parent::FieldHolder($properties);
+    }
+
     public function getCollapsed()
     {
         return $this->collapsed;
     }
+
 }

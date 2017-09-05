@@ -44,8 +44,19 @@ class ElasticaService extends Object {
             $mapping->send();
 
             $type = $this->index->getType($class::singleton()->getElasticaType());
-            foreach ($class::get() as $record) {
-                $type->addDocument($record->getElasticaDocument());
+
+            if (class_exists('Translatable')) {
+                foreach (Translatable::get_allowed_locales() as $locale) {
+                    Translatable::set_current_locale($locale);
+
+                    foreach ($class::get() as $record) {
+                        $type->addDocument($record->getElasticaDocument());
+                    }
+                }
+            } else {
+                foreach ($class::get() as $record) {
+                    $type->addDocument($record->getElasticaDocument());
+                }
             }
         }
     }
