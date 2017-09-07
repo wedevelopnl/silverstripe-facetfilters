@@ -31,24 +31,11 @@ class FilterPageControllerExtension extends Extension {
         return $form;
     }
 
-    public function Items()
-    {
-        $list = new PaginatedList($this->getList());
-        $list->setRequest($this->owner->getRequest());
-        $list->setPageLength(30);
-
-        return $list;
-    }
-
     public function getList()
     {
         if (!$this->list) {
             $query = new Elastica\Query();
             $bool = new Elastica\Query\BoolQuery();
-
-            if (method_exists($this->owner, 'updateQueryBool')) {
-                $this->owner->updateQueryBool($bool);
-            }
 
             foreach ($this->owner->Filters() as $filter) {
                 $filterQuery = $filter->getElasticaQuery();
@@ -68,10 +55,28 @@ class FilterPageControllerExtension extends Extension {
 
             $query->setQuery($bool);
 
-            $this->list = new FacetIndexItemsList(ElasticaService::singleton()->getIndex(), $query);
+            if (method_exists($this->owner, 'updateQuery')) {
+                $this->owner->updateQuery($query);
+            }
+
+            $list = new FacetIndexItemsList(ElasticaService::singleton()->getIndex(), $query);
+
+            $this->list = $list;
         }
 
         return $this->list;
+    }
+
+    public function PaginatedList()
+    {
+        $list = new PaginatedList($this->getList());
+        $list->setRequest($this->owner->getRequest());
+
+        if (method_exists($this->owner, 'updatePaginatedList')) {
+            $this->owner->updatePaginatedList($list);
+        }
+
+        return $list;
     }
 
 }
