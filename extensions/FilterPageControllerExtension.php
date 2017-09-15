@@ -16,6 +16,9 @@ class FilterPageControllerExtension extends Extension {
         foreach ($this->owner->Filters() as $filter) {
             if ($filter->createBucket()) {
                 foreach ($this->getList()->getResultSet()->getAggregation($filter->ID)['buckets'] as $option) {
+                    if(!$option['doc_count']){
+                        continue;
+                    }
                     $filter->addOption($option['key'], "{$option['key']} ({$option['doc_count']})");
                 }
             }
