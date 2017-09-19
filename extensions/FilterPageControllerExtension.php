@@ -50,7 +50,7 @@ class FilterPageControllerExtension extends Extension {
                     $terms = new Elastica\Aggregation\Terms($filter->ID);
                     $terms->setField($filter->FieldName);
                     $terms->setOrder('_term', 'asc');
-                    $terms->setMinimumDocumentCount(0);
+                    $terms->setSize(100);
 
                     $query->addAggregation($terms);
                 }
