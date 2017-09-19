@@ -42,6 +42,7 @@ class FilterPageControllerExtension extends Extension {
 
             foreach ($this->owner->Filters() as $filter) {
                 $filterQuery = $filter->getElasticaQuery();
+
                 if ($filterQuery) {
                     $bool->addMust($filterQuery);
                 }

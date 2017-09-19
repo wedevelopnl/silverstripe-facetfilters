@@ -38,6 +38,11 @@ class Filter extends DataObject {
         return false;
     }
 
+    public function getFormField()
+    {
+        return false;
+    }
+
     public function createBucket()
     {
         return false;

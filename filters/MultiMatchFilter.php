@@ -9,9 +9,9 @@ class MultiMatchFilter extends Filter {
         $value = Controller::curr()->getRequest()->getVar($this->ID);
 
         if ($value) {
-            $multiMatch = new Elastica\Query\MultiMatch();
-            $multiMatch->setQuery($value);
-            $multiMatch->setFields(['Title', 'Content']);
+            $query = new Elastica\Query\MultiMatch();
+            $query->setQuery($value);
+            $query->setFields(['Title', 'Content']);
         }
 
         return $query;

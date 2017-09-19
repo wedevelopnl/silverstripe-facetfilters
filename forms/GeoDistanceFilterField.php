@@ -6,8 +6,8 @@ class GeoDistanceFilterField extends FormField {
     protected $distanceField = null;
 
     public function __construct($name) {
-        $this->searchField = TextField::create($name . '[search]', 'Plaats/postcode');
-        $this->distanceField = DropdownField::create($name . '[distance]', 'Afstand', [
+        $this->searchField = TextField::create($name . '[Search]', 'Plaats/postcode');
+        $this->distanceField = DropdownField::create($name . '[Distance]', 'Afstand', [
             '10km' => '10 Km',
             '20km' => '20 Km',
             '50km' => '50 Km',
@@ -16,7 +16,18 @@ class GeoDistanceFilterField extends FormField {
             '200km' => '200 Km',
         ]);
 
-        parent::__construct($name);
+        parent::__construct($name, '');
+    }
+
+    public function setValue($value) {
+        parent::setValue($value);
+
+        if (is_array($value)) {
+            $this->searchField->setValue($value['Search']);
+            $this->distanceField->setValue($value['Distance']);
+        }
+
+        return $this;
     }
 
     public function getSearchField()
