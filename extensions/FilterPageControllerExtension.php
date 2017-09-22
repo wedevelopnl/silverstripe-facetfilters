@@ -19,7 +19,8 @@ class FilterPageControllerExtension extends Extension {
                     if(!$option['doc_count']){
                         continue;
                     }
-                    $filter->addOption($option['key'], "{$option['key']} ({$option['doc_count']})");
+
+                    $filter->addOption($option);
                 }
             }
             $filters[] = $filter;
