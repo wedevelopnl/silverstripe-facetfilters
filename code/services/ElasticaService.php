@@ -35,6 +35,8 @@ class ElasticaService extends Object {
         $this->index->delete();
         $this->index->create();
 
+        $documents = [];
+
         foreach ($this->getIndexedClasses() as $class) {
             $instance = $class::singleton();
             $type = $this->index->getType($instance->getElasticaType());
@@ -43,22 +45,22 @@ class ElasticaService extends Object {
             $mapping->setType($type);
             $mapping->send();
 
-            $type = $this->index->getType($class::singleton()->getElasticaType());
-
             if (class_exists('Translatable')) {
                 foreach (Translatable::get_allowed_locales() as $locale) {
                     Translatable::set_current_locale($locale);
 
                     foreach ($class::get() as $record) {
-                        $type->addDocument($record->getElasticaDocument());
+                        $documents[] = $record->getElasticaDocument();
                     }
                 }
             } else {
                 foreach ($class::get() as $record) {
-                    $type->addDocument($record->getElasticaDocument());
+                    $documents[] = $record->getElasticaDocument();
                 }
             }
         }
+
+        $this->index->addDocuments($documents);
     }
 
     public function search(Elastica\Query $query)
