@@ -60,13 +60,13 @@ class FacetIndexItemsList extends ViewableData implements SS_List, SS_Limitable 
      */
     public function toArray() {
         $rows = $this->getResultSet()->getResults();
-        $resultIDs = [];
+        $pages = [];
 
         foreach($rows as $row) {
-            $resultIDs[] = $row->getData()['ID'];
+            $pages[] = Page::get()->byID($row->getData()['ID']);
         }
 
-        return Page::get()->filter('ID', $resultIDs)->toArray();
+        return $pages;
     }
 
     /**
