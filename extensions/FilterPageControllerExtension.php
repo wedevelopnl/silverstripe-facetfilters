@@ -52,6 +52,7 @@ class FilterPageControllerExtension extends Extension {
                     $terms->setField($filter->FieldName);
                     $terms->setOrder('_term', 'asc');
                     $terms->setMinimumDocumentCount(0);
+                    $terms->setSize(999);
 
                     $query->addAggregation($terms);
                 }
