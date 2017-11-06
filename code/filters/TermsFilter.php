@@ -7,6 +7,8 @@ class TermsFilter extends Filter {
 
     protected $options = [];
 
+    protected $labels = [];
+
     public function getElasticaQuery()
     {
         $query = false;
@@ -27,12 +29,27 @@ class TermsFilter extends Filter {
         return new TermsFilterField($this->ID, $this->Name, $this->getOptions(), $this->Collapsed);
     }
 
-    public function addOption($key, $value) {
-        $this->options[$key] = $value;
+    public function addOption($option) {
+        if (array_key_exists($option['key'], $this->getLabels())) {
+            $label = "{$this->labels[$option['key']]} ({$option['doc_count']})";
+        } else {
+            $label = "{$option['key']} ({$option['doc_count']})";
+        }
+
+        $this->options[$option['key']] = $label;
     }
 
-    protected function getOptions() {
+    public function getOptions() {
         return $this->options;
+    }
+
+    public function getLabels()
+    {
+        if (!$this->labels) {
+            $this->extend('updateLabels', $this->labels);
+        }
+
+        return $this->labels;
     }
 
     public function createBucket()
