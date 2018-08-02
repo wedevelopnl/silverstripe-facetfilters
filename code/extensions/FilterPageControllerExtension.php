@@ -52,11 +52,13 @@ class FilterPageControllerExtension extends Extension {
                     $terms = new Elastica\Aggregation\Terms($filter->ID);
                     $terms->setField($filter->FieldName);
                     $terms->setOrder('_term', 'asc');
-                    $terms->setSize(100);
+                    $terms->setSize(999);
 
                     $query->addAggregation($terms);
                 }
             }
+
+            $query->setSize(999);
 
             $query->setQuery($bool);
 
