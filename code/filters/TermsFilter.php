@@ -33,7 +33,7 @@ class TermsFilter extends Filter {
         if (array_key_exists($option['key'], $this->getLabels())) {
             $label = "{$this->labels[$option['key']]} ({$option['doc_count']})";
         } else {
-            $label = "{$option['key']} ({$option['doc_count']})";
+            $label = "{$option['key']}<span>({$option['doc_count']})<span>";
         }
 
         $this->options[$option['key']] = $label;
