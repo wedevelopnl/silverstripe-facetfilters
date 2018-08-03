@@ -31,9 +31,9 @@ class TermsFilter extends Filter {
 
     public function addOption($option) {
         if (array_key_exists($option['key'], $this->getLabels())) {
-            $label = "{$this->labels[$option['key']]} ({$option['doc_count']})";
+            $label = $this->generateLabel($this->labels[$option['key']], $option['doc_count']);
         } else {
-            $label = "{$option['key']}<span>({$option['doc_count']})<span>";
+            $label = $this->generateLabel($option['key'], $option['doc_count']);
         }
 
         $this->options[$option['key']] = $label;
@@ -41,6 +41,11 @@ class TermsFilter extends Filter {
 
     public function getOptions() {
         return $this->options;
+    }
+
+    public function generateLabel($label, $count)
+    {
+        return "{$label}<span>{$count}</span>";
     }
 
     public function getLabels()
