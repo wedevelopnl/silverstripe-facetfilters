@@ -19,7 +19,10 @@ class MultiMatchFilter extends Filter {
 
     public function getFormField()
     {
-        return new MultiMatchFilterField($this->ID, $this->Name);
+        $field = new MultiMatchFilterField($this->ID, $this->Name);
+        $field->setAttribute('placeholder', $this->Placeholder);
+
+        return $field;
     }
 
 }

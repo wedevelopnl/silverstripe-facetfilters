@@ -34,7 +34,11 @@ class GeoDistanceFilter extends Filter {
 
     public function getFormField()
     {
-        return new GeoDistanceFilterField($this->ID);
+        $field = new GeoDistanceFilterField($this->ID);
+
+        $field->getSearchField()->setAttribute('placeholder', $this->Placeholder);
+
+        return $field;
     }
 
 }

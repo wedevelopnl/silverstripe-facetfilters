@@ -4,6 +4,7 @@ class Filter extends DataObject {
     private static $db = [
         'Name' => 'Varchar',
         'FieldName' => 'Varchar',
+        'Placeholder' => 'Varchar',
         'Sort' => 'Int'
     ];
 
