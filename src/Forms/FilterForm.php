@@ -1,4 +1,11 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Forms;
+
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+
 class FilterForm extends Form {
 
     public function __construct($controller, $name, $filters)

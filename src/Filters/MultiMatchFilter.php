@@ -1,4 +1,10 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Filters;
+
+use SilverStripe\Control\Controller;
+use TheWebmen\FacetFilters\Filters\Forms\MultiMatchFilterField;
+
 class MultiMatchFilter extends Filter {
 
     protected $options = [];
@@ -9,7 +15,7 @@ class MultiMatchFilter extends Filter {
         $value = Controller::curr()->getRequest()->getVar($this->ID);
 
         if ($value) {
-            $query = new Elastica\Query\MultiMatch();
+            $query = new \Elastica\Query\MultiMatch();
             $query->setQuery($value);
             $query->setFields(['Title', 'Content']);
         }

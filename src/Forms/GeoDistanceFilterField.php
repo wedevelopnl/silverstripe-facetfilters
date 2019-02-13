@@ -1,4 +1,11 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Forms;
+
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\TextField;
+
 class GeoDistanceFilterField extends FormField {
 
     protected $searchField = null;
@@ -19,8 +26,8 @@ class GeoDistanceFilterField extends FormField {
         parent::__construct($name, '');
     }
 
-    public function setValue($value) {
-        parent::setValue($value);
+    public function setValue($value, $data = null) {
+        parent::setValue($value, $data);
 
         if (is_array($value)) {
             $this->searchField->setValue($value['Search']);

@@ -1,4 +1,9 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Filters;
+
+use SilverStripe\ORM\DataObject;
+
 class Filter extends DataObject {
 
     private static $db = [
@@ -9,7 +14,7 @@ class Filter extends DataObject {
     ];
 
     private static $has_one = [
-        'Page' => 'Page'
+        'Page' => \Page::class
     ];
 
     private static $summary_fields = [
@@ -30,7 +35,7 @@ class Filter extends DataObject {
         return $fields;
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         if ($this->class != __CLASS__) {
             return true;

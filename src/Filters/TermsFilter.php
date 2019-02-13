@@ -1,4 +1,10 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Filters;
+
+use SilverStripe\Control\Controller;
+use TheWebmen\FacetFilters\Forms\TermsFilterField;
+
 class TermsFilter extends Filter {
 
     private static $db = [
@@ -18,7 +24,7 @@ class TermsFilter extends Filter {
         $this->extend('updateValues', $values);
 
         if ($values) {
-            $query = new Elastica\Query\Terms($this->FieldName, $values);
+            $query = new \Elastica\Query\Terms($this->FieldName, $values);
         }
 
         return $query;
