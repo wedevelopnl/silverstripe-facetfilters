@@ -6,6 +6,8 @@ use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Core\Config\Configurable;
+use SilverStripe\ORM\DataObject;
+use Werkenbij\JobPage;
 
 class ElasticaService
 {
@@ -22,7 +24,6 @@ class ElasticaService
     public function __construct()
     {
         $client = new \Elastica\Client();
-        $client->setConfig(['url' => 'http://192.168.50.209:9200/']);
         $this->index = $client->getIndex(self::config()->get('index_name'));
     }
 
@@ -84,8 +85,8 @@ class ElasticaService
     public function getIndexedClasses()
     {
         $classes = [];
-        foreach (ClassInfo::subclassesFor('DataObject') as $candidate) {
-            if (singleton($candidate)->hasExtension('FilterIndexItemExtension')) {
+        foreach (ClassInfo::subclassesFor(DataObject::class) as $candidate) {
+            if (singleton($candidate)->hasExtension(\TheWebmen\FacetFilters\Extensions\FilterIndexItemExtension::class)) {
                 $classes[] = $candidate;
             }
         }

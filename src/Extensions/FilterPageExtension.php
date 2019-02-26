@@ -19,7 +19,7 @@ class FilterPageExtension extends DataExtension {
     ];
 
     private static $has_many = [
-        'Filters' => SiteTree::class
+        'Filters' => Filter::class
     ];
 
     public function updateCMSFields(FieldList $fields)
