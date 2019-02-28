@@ -23,7 +23,11 @@ class ElasticaService
 
     public function __construct()
     {
-        $client = new \Elastica\Client();
+        $client = new \Elastica\Client([
+            'host' => '192.168.50.6',
+            'username' => 'elastic',
+            'password' => 'monkeytown'
+        ]);
         $this->index = $client->getIndex(self::config()->get('index_name'));
     }
 

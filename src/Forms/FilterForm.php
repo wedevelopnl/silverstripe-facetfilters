@@ -27,7 +27,7 @@ class FilterForm extends Form {
         parent::__construct($controller, $name, $fields, $actions);
 
         $this->setFormMethod('GET');
-        $this->setFormAction($controller->getRequest()->getVar('url'));
+        $this->setFormAction($controller->getRequest()->getUrl());
         $this->disableSecurityToken();
         $this->loadDataFrom($controller->getRequest()->getVars());
     }
