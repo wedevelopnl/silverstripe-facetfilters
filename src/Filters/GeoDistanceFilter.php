@@ -19,7 +19,7 @@ class GeoDistanceFilter extends Filter {
 
         if ($value['Search']) {
             $data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$search}&key=AIzaSyDXgYLgmIgRgoUqwWH1BZwsO1YLMyNWqRA");
-            $data = json_decode($data);
+            $data = json_decode($data, true);
             if ($data['status'] == 'OK') {
                 $location = $data['results'][0]['geometry']['location'];
                 $distance = !empty($value['Distance']) ? $value['Distance'] : '10km';

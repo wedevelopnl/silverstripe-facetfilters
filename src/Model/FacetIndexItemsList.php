@@ -118,7 +118,7 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
      * @return \ArrayIterator
      */
     public function getIterator() {
-        return (new ArrayData($this->toArray()))->getIterator();
+        return new \ArrayIterator($this->toArray());
     }
 
     /**
