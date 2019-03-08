@@ -1,4 +1,11 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Forms;
+
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+
 class FilterForm extends Form {
 
     public function __construct($controller, $name, $filters)
@@ -20,7 +27,7 @@ class FilterForm extends Form {
         parent::__construct($controller, $name, $fields, $actions);
 
         $this->setFormMethod('GET');
-        $this->setFormAction($controller->getRequest()->getVar('url'));
+        $this->setFormAction($controller->getRequest()->getUrl());
         $this->disableSecurityToken();
         $this->loadDataFrom($controller->getRequest()->getVars());
     }

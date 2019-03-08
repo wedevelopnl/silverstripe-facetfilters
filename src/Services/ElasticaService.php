@@ -1,5 +1,20 @@
 <?php
-class ElasticaService extends Object {
+
+namespace TheWebmen\FacetFilters\Services;
+
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Extensible;
+use SilverStripe\Core\Injector\Injectable;
+use SilverStripe\Core\Config\Configurable;
+use SilverStripe\ORM\DataObject;
+use Werkenbij\JobPage;
+
+class ElasticaService
+{
+    use Extensible;
+    use Injectable;
+    use Configurable;
+
 
     /**
      * @var \Elastica\Index
@@ -8,8 +23,7 @@ class ElasticaService extends Object {
 
     public function __construct()
     {
-        $client = new Elastica\Client();
-
+        $client = new \Elastica\Client();
         $this->index = $client->getIndex(self::config()->get('index_name'));
     }
 
@@ -63,7 +77,7 @@ class ElasticaService extends Object {
         $this->index->addDocuments($documents);
     }
 
-    public function search(Elastica\Query $query)
+    public function search(\Elastica\Query $query)
     {
         return $this->index->search($query);
     }
@@ -71,8 +85,8 @@ class ElasticaService extends Object {
     public function getIndexedClasses()
     {
         $classes = [];
-        foreach (ClassInfo::subclassesFor('DataObject') as $candidate) {
-            if (singleton($candidate)->hasExtension('FilterIndexItemExtension')) {
+        foreach (ClassInfo::subclassesFor(DataObject::class) as $candidate) {
+            if (singleton($candidate)->hasExtension(\TheWebmen\FacetFilters\Extensions\FilterIndexItemExtension::class)) {
                 $classes[] = $candidate;
             }
         }

@@ -1,4 +1,13 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Extensions;
+
+use SilverStripe\Core\Extension;
+use SilverStripe\ORM\PaginatedList;
+use TheWebmen\FacetFilters\Forms\FilterForm;
+use TheWebmen\FacetFilters\Model\FacetIndexItemsList;
+use TheWebmen\FacetFilters\Services\ElasticaService;
+
 class FilterPageControllerExtension extends Extension {
 
     /**
@@ -38,8 +47,8 @@ class FilterPageControllerExtension extends Extension {
     public function getList()
     {
         if (!$this->list) {
-            $query = new Elastica\Query();
-            $bool = new Elastica\Query\BoolQuery();
+            $query = new \Elastica\Query();
+            $bool = new \Elastica\Query\BoolQuery();
 
             foreach ($this->owner->Filters() as $filter) {
                 $filterQuery = $filter->getElasticaQuery();
@@ -49,7 +58,7 @@ class FilterPageControllerExtension extends Extension {
                 }
 
                 if ($filter->createBucket()) {
-                    $terms = new Elastica\Aggregation\Terms($filter->ID);
+                    $terms = new \Elastica\Aggregation\Terms($filter->ID);
                     $terms->setField($filter->FieldName);
                     $terms->setOrder('_term', 'asc');
                     $terms->setSize(999);

@@ -1,4 +1,10 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Filters;
+
+use SilverStripe\Control\Controller;
+use TheWebmen\FacetFilters\Forms\GeoDistanceFilterField;
+
 class GeoDistanceFilter extends Filter {
 
     private static $db = [
@@ -12,20 +18,13 @@ class GeoDistanceFilter extends Filter {
         $search = urlencode($value['Search'] . ($this->PostFix ? ' ' . $this->PostFix : null));
 
         if ($value['Search']) {
-            $cache = SS_Cache::factory('googlemapsgeocode');
-            $cacheKey = sha1($search);
-            if (!($data = $cache->load($cacheKey))) {
-                $data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$search}&key=AIzaSyDXgYLgmIgRgoUqwWH1BZwsO1YLMyNWqRA");
-
-                $cache->save($data, $cacheKey);
-            }
-
-            $data = Convert::json2array($data);
+            $data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$search}&key=AIzaSyDXgYLgmIgRgoUqwWH1BZwsO1YLMyNWqRA");
+            $data = json_decode($data, true);
             if ($data['status'] == 'OK') {
                 $location = $data['results'][0]['geometry']['location'];
                 $distance = !empty($value['Distance']) ? $value['Distance'] : '10km';
 
-                $query = new Elastica\Query\GeoDistance($this->FieldName, "{$location['lat']},{$location['lng']}", $distance);
+                $query = new \Elastica\Query\GeoDistance($this->FieldName, "{$location['lat']},{$location['lng']}", $distance);
             }
         }
 

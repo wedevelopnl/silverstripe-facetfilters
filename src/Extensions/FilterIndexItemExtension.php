@@ -1,9 +1,14 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Extensions;
+
+use SilverStripe\ORM\DataExtension;
+
 class FilterIndexItemExtension extends DataExtension {
 
     public function getElasticaType()
     {
-        return $this->ownerBaseClass;
+        return $this->owner->baseClass();
     }
 
     public function getElasticaFields()

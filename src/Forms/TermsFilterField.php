@@ -1,4 +1,9 @@
 <?php
+
+namespace TheWebmen\FacetFilters\Forms;
+
+use SilverStripe\Forms\CheckboxSetField;
+
 class TermsFilterField extends CheckboxSetField {
 
     protected $collapsed = false;

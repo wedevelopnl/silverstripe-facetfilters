@@ -1,5 +1,16 @@
 <?php
-class FacetIndexItemsList extends ViewableData implements SS_List, SS_Limitable {
+
+namespace TheWebmen\FacetFilters\Model;
+
+use Page;
+use SilverStripe\ORM\Limitable;
+use SilverStripe\ORM\Map;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\View\ArrayData;
+use SilverStripe\View\ViewableData;
+use TheWebmen\FacetFilters\Services\ElasticaService;
+
+class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
 
     /**
      * @var \Elastica\ResultSet
@@ -97,17 +108,17 @@ class FacetIndexItemsList extends ViewableData implements SS_List, SS_Limitable 
     /**
      * @param string $keyField - the 'key' field of the result array
      * @param string $titleField - the value field of the result array
-     * @return SS_Map
+     * @return Map
      */
     public function map($keyField = 'ID', $titleField = 'Title') {
-        return new SS_Map($this, $keyField, $titleField);
+        return new Map($this, $keyField, $titleField);
     }
 
     /**
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator() {
-        return new ArrayIterator($this->toArray());
+        return new \ArrayIterator($this->toArray());
     }
 
     /**
