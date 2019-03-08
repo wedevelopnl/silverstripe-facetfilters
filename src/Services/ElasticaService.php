@@ -23,7 +23,8 @@ class ElasticaService
 
     public function __construct()
     {
-        $client = new \Elastica\Client();
+        $config = self::config()->get('client_config');
+        $client = new \Elastica\Client($config ? $config : []);
         $this->index = $client->getIndex(self::config()->get('index_name'));
     }
 
