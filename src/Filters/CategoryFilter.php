@@ -6,7 +6,8 @@ use SilverStripe\Control\Controller;
 use TheWebmen\FacetFilters\Forms\TermsFilterField;
 
 class CategoryFilter extends Filter {
-
+    private static $table_name = 'TheWebmen_FacetFilters_Filters_CategoryFilter';
+    
     private static $db = [
         'Collapsed' => 'Boolean'
     ];
