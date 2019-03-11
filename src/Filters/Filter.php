@@ -5,7 +5,8 @@ namespace TheWebmen\FacetFilters\Filters;
 use SilverStripe\ORM\DataObject;
 
 class Filter extends DataObject {
-
+    private static $table_name = 'TheWebmen_FacetFilters_Filters_Filter';
+    
     private static $db = [
         'Name' => 'Varchar',
         'FieldName' => 'Varchar',
