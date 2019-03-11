@@ -6,7 +6,8 @@ use SilverStripe\Control\Controller;
 use TheWebmen\FacetFilters\Forms\GeoDistanceFilterField;
 
 class GeoDistanceFilter extends Filter {
-
+    private static $table_name = 'TheWebmen_FacetFilters_Filters_GeoDistanceFilter';
+    
     private static $db = [
         'PostFix' => 'Varchar',
     ];
