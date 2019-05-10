@@ -2,18 +2,23 @@
 
 namespace TheWebmen\FacetFilters\Extensions;
 
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\HasManyList;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use TheWebmen\FacetFilters\Filters\Filter;
 
-class FilterPageExtension extends DataExtension {
-
+/**
+ * @property FilterPageExtension owner
+ * @property string ShowSearchButton
+ * @method HasManyList|Filter[] Filters
+ */
+class FilterPageExtension extends DataExtension
+{
     private static $db = [
         'ShowSearchButton' => 'Boolean'
     ];
@@ -33,5 +38,4 @@ class FilterPageExtension extends DataExtension {
         $filtersGridField = new GridField('Filters', 'Filters', $this->owner->Filters(), $filtersGridFieldConfig);
         $fields->addFieldToTab('Root.Filters', $filtersGridField);
     }
-
 }

@@ -4,14 +4,22 @@
   "type": "silverstripe-vendormodule",
   "keywords": ["facet", "filters"],
   "require": {
-    "silverstripe/framework": ">=4.0",
-    "silverstripe/cms": ">=4.0",
-    "ruflin/elastica": "^6.1.1",
-    "symbiote/silverstripe-multivaluefield": "^5.0"
+    "ext-json": "*",
+    "silverstripe/framework": "^4",
+    "silverstripe/cms": "^4",
+    "silverstripe/admin": "^1",
+    "silverstripe/asset-admin": "^1",
+    "silverstripe/errorpage": "^1",
+    "silverstripe/versioned": "^1",
+    "ruflin/elastica": "^6.1",
+    "symbiote/silverstripe-gridfieldextensions": "^3.2"
   },
   "autoload": {
     "psr-4": {
-        "TheWebmen\\Facetfilters\\": "src/"
+        "TheWebmen\\FacetFilters\\": "src/"
     }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.15"
   }
 }

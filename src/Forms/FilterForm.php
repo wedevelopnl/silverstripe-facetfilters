@@ -2,13 +2,16 @@
 
 namespace TheWebmen\FacetFilters\Forms;
 
+use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 
-class FilterForm extends Form {
+class FilterForm extends Form
+{
+    private $showSearchButton = true;
 
-    public function __construct($controller, $name, $filters)
+    public function __construct(RequestHandler $controller, $name = self::DEFAULT_NAME, array $filters = [])
     {
         $fields = new FieldList();
 
@@ -20,7 +23,7 @@ class FilterForm extends Form {
 
         $actions = new FieldList();
 
-        if ($controller->ShowSearchButton) {
+        if ($this->showSearchButton) {
             $actions->push(FormAction::create('', 'Zoeken')->setAttribute('name', ''));
         }
 
@@ -32,4 +35,8 @@ class FilterForm extends Form {
         $this->loadDataFrom($controller->getRequest()->getVars());
     }
 
+    public function setShowSearchButton($showSearchButton)
+    {
+        $this->showSearchButton = $showSearchButton;
+    }
 }

@@ -2,13 +2,18 @@
 
 namespace TheWebmen\FacetFilters\Extensions;
 
+use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\PaginatedList;
 use TheWebmen\FacetFilters\Forms\FilterForm;
 use TheWebmen\FacetFilters\Model\FacetIndexItemsList;
 use TheWebmen\FacetFilters\Services\ElasticaService;
 
-class FilterPageControllerExtension extends Extension {
+/**
+ * @property RequestHandler|FilterPageExtension owner
+ */
+class FilterPageControllerExtension extends Extension
+{
 
     /**
      * @var FacetIndexItemsList
@@ -25,7 +30,7 @@ class FilterPageControllerExtension extends Extension {
         foreach ($this->owner->Filters() as $filter) {
             if ($filter->createBucket()) {
                 foreach ($this->getList()->getResultSet()->getAggregation($filter->ID)['buckets'] as $option) {
-                    if(!$option['doc_count']){
+                    if (!$option['doc_count']) {
                         continue;
                     }
 
@@ -36,6 +41,7 @@ class FilterPageControllerExtension extends Extension {
         }
 
         $form = new FilterForm($this->owner, 'FilterForm', $filters);
+        $form->setShowSearchButton((bool) $this->owner->ShowSearchButton);
 
         if (method_exists($this->owner, 'updateFilterForm')) {
             $this->owner->updateFilterForm($form);
@@ -94,5 +100,4 @@ class FilterPageControllerExtension extends Extension {
 
         return $list;
     }
-
 }

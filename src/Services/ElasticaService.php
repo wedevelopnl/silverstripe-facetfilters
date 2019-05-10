@@ -7,14 +7,14 @@ use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\ORM\DataObject;
-use Werkenbij\JobPage;
+use TheWebmen\FacetFilters\Extensions\FilterIndexItemExtension;
+use Translatable;
 
 class ElasticaService
 {
     use Extensible;
     use Injectable;
     use Configurable;
-
 
     /**
      * @var \Elastica\Index
@@ -33,12 +33,18 @@ class ElasticaService
         return $this->index;
     }
 
+    /**
+     * @param FilterIndexItemExtension $record
+     */
     public function add($record)
     {
         $type = $this->index->getType($record->getElasticaType());
         $type->addDocument($record->getElasticaDocument());
     }
 
+    /**
+     * @param FilterIndexItemExtension $record
+     */
     public function delete($record)
     {
         $type = $this->index->getType($record->getElasticaType());
@@ -53,6 +59,7 @@ class ElasticaService
         $documents = [];
 
         foreach ($this->getIndexedClasses() as $class) {
+            /** @var FilterIndexItemExtension $instance */
             $instance = $class::singleton();
             $type = $this->index->getType($instance->getElasticaType());
 
@@ -64,11 +71,13 @@ class ElasticaService
                 foreach (Translatable::get_allowed_locales() as $locale) {
                     Translatable::set_current_locale($locale);
 
+                    /** @var FilterIndexItemExtension $record */
                     foreach ($class::get() as $record) {
                         $documents[] = $record->getElasticaDocument();
                     }
                 }
             } else {
+                /** @var FilterIndexItemExtension $record */
                 foreach ($class::get() as $record) {
                     $documents[] = $record->getElasticaDocument();
                 }
@@ -87,11 +96,10 @@ class ElasticaService
     {
         $classes = [];
         foreach (ClassInfo::subclassesFor(DataObject::class) as $candidate) {
-            if (singleton($candidate)->hasExtension(\TheWebmen\FacetFilters\Extensions\FilterIndexItemExtension::class)) {
+            if (singleton($candidate)->hasExtension(FilterIndexItemExtension::class)) {
                 $classes[] = $candidate;
             }
         }
         return $classes;
     }
-
 }

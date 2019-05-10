@@ -5,9 +5,13 @@ namespace TheWebmen\FacetFilters\Filters;
 use SilverStripe\Control\Controller;
 use TheWebmen\FacetFilters\Forms\TermsFilterField;
 
-class TermsFilter extends Filter {
+/**
+ * @property string Collapsed
+ */
+class TermsFilter extends Filter
+{
     private static $table_name = 'TheWebmen_FacetFilters_Filters_TermsFilter';
-    
+
     private static $db = [
         'Collapsed' => 'Boolean'
     ];
@@ -20,7 +24,7 @@ class TermsFilter extends Filter {
     {
         $query = false;
         $values = Controller::curr()->getRequest()->getVar($this->ID);
-        $values = is_array($values) ? $values : array();
+        $values = is_array($values) ? $values : [];
 
         $this->extend('updateValues', $values);
 
@@ -36,7 +40,8 @@ class TermsFilter extends Filter {
         return new TermsFilterField($this->ID, $this->Name, $this->getOptions(), $this->Collapsed);
     }
 
-    public function addOption($option) {
+    public function addOption($option)
+    {
         if (array_key_exists($option['key'], $this->getLabels())) {
             $label = $this->generateLabel($this->labels[$option['key']], $option['doc_count']);
         } else {
@@ -46,7 +51,8 @@ class TermsFilter extends Filter {
         $this->options[$option['key']] = $label;
     }
 
-    public function getOptions() {
+    public function getOptions()
+    {
         return $this->options;
     }
 
@@ -64,9 +70,13 @@ class TermsFilter extends Filter {
         return $this->labels;
     }
 
+    public function getTitle()
+    {
+        return 'Terms';
+    }
+
     public function createBucket()
     {
         return true;
     }
-
 }

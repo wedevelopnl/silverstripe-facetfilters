@@ -4,17 +4,18 @@ namespace TheWebmen\FacetFilters\Forms;
 
 use SilverStripe\Forms\CheckboxSetField;
 
-class TermsFilterField extends CheckboxSetField {
-
+class TermsFilterField extends CheckboxSetField
+{
     protected $collapsed = false;
 
-    public function __construct($name, $title=null, $source=array(), $collapsed=false, $value='', $form=null) {
+    public function __construct($name, $title=null, $source=[], $collapsed=false, $value='')
+    {
         $this->collapsed = $collapsed;
 
-        parent::__construct($name, $title, $source, $value, $form);
+        parent::__construct($name, $title, $source, $value);
     }
 
-    public function FieldHolder($properties = array())
+    public function FieldHolder($properties = [])
     {
         if ($this->Value()) {
             $this->collapsed = false;
@@ -27,5 +28,4 @@ class TermsFilterField extends CheckboxSetField {
     {
         return $this->collapsed;
     }
-
 }

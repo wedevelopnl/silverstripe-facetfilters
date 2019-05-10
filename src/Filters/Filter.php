@@ -2,11 +2,21 @@
 
 namespace TheWebmen\FacetFilters\Filters;
 
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\ORM\DataObject;
 
-class Filter extends DataObject {
+/**
+ * @property string Name
+ * @property string FieldName
+ * @property string Placeholder
+ * @property string Sort
+ * @property string PageID
+ * @method SiteTree Page
+ */
+class Filter extends DataObject
+{
     private static $table_name = 'TheWebmen_FacetFilters_Filters_Filter';
-    
+
     private static $db = [
         'Name' => 'Varchar',
         'FieldName' => 'Varchar',
@@ -15,13 +25,13 @@ class Filter extends DataObject {
     ];
 
     private static $has_one = [
-        'Page' => \Page::class
+        'Page' => SiteTree::class
     ];
 
     private static $summary_fields = [
-        'ClassName',
-        'Name',
-        'FieldName'
+        'Title' => 'Type',
+        'Name' => 'Name',
+        'FieldName' => 'FieldName'
     ];
 
     private static $default_sort = '"Sort" ASC';
@@ -45,6 +55,11 @@ class Filter extends DataObject {
         return false;
     }
 
+    public function getTitle()
+    {
+        return $this->ClassName;
+    }
+
     public function getFormField()
     {
         return false;
@@ -54,5 +69,4 @@ class Filter extends DataObject {
     {
         return false;
     }
-
 }

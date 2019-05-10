@@ -3,9 +3,14 @@
 namespace TheWebmen\FacetFilters\Extensions;
 
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataObject;
 
-class FilterIndexItemExtension extends DataExtension {
-
+/**
+ * @property FilterIndexItemExtension owner
+ * @mixin DataObject
+ */
+class FilterIndexItemExtension extends DataExtension
+{
     public function getElasticaType()
     {
         return $this->owner->baseClass();
@@ -16,8 +21,8 @@ class FilterIndexItemExtension extends DataExtension {
         $fields = [
             'ID' => ['type' => 'integer'],
             'ParentID' => ['type' => 'integer'],
-            'Title' => ['type' => 'string'],
-            'Content' => ['type' => 'string']
+            'Title' => ['type' => 'text'],
+            'Content' => ['type' => 'text']
         ];
 
         if (method_exists($this->owner, 'updateElasticaFields')) {
@@ -55,5 +60,4 @@ class FilterIndexItemExtension extends DataExtension {
 
         return new \Elastica\Document(implode('_', [$this->owner->ClassName, $this->owner->ID]), $data, $this->getElasticaType());
     }
-
 }

@@ -6,13 +6,14 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\TextField;
 
-class GeoDistanceFilterField extends FormField {
-
+class GeoDistanceFilterField extends FormField
+{
     protected $searchField = null;
 
     protected $distanceField = null;
 
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->searchField = TextField::create($name . '[Search]', 'Plaats/postcode');
         $this->distanceField = DropdownField::create($name . '[Distance]', 'Afstand', [
             '10km' => '10 Km',
@@ -26,7 +27,8 @@ class GeoDistanceFilterField extends FormField {
         parent::__construct($name, '');
     }
 
-    public function setValue($value, $data = null) {
+    public function setValue($value, $data = null)
+    {
         parent::setValue($value, $data);
 
         if (is_array($value)) {
@@ -46,5 +48,4 @@ class GeoDistanceFilterField extends FormField {
     {
         return $this->distanceField;
     }
-
 }

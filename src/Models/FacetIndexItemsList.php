@@ -2,23 +2,23 @@
 
 namespace TheWebmen\FacetFilters\Model;
 
-use Page;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\ORM\Limitable;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
 use TheWebmen\FacetFilters\Services\ElasticaService;
 
-class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
+class FacetIndexItemsList extends ViewableData implements SS_List, Limitable
+{
 
     /**
-     * @var \Elastica\ResultSet
+     * @var \Elastica\Index
      */
     protected $index;
 
     /**
-     * @var \Elastica\ResultSet
+     * @var \Elastica\Query
      */
     protected $query;
 
@@ -27,11 +27,6 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
      */
     protected $resultSet;
 
-    /**
-     * FacetIndexItemsList constructor.
-     * @param \Elastica\Index $index
-     * @param \Elastica\Query $query
-     */
     public function __construct(\Elastica\Index $index, \Elastica\Query $query)
     {
         $this->index = $index;
@@ -40,13 +35,11 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
         parent::__construct();
     }
 
-    public function __clone() {
+    public function __clone()
+    {
         $this->resultSet = null;
     }
 
-    /**
-     * @return \Elastica\ResultSet
-     */
     public function getResultSet()
     {
         if (!$this->resultSet) {
@@ -58,8 +51,10 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
     /**
      * @param int $limit
      * @param int $offset
+     * @return FacetIndexItemsList
      */
-    public function limit($limit, $offset = 0) {
+    public function limit($limit, $offset = 0)
+    {
         $this->query->setFrom($offset);
         $this->query->setSize($limit);
 
@@ -69,12 +64,13 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
     /**
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         $rows = $this->getResultSet()->getResults();
         $pages = [];
 
-        foreach($rows as $row) {
-            $pages[] = Page::get()->byID($row->getData()['ID']);
+        foreach ($rows as $row) {
+            $pages[] = SiteTree::get()->byID($row->getData()['ID']);
         }
 
         return $pages;
@@ -83,10 +79,11 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
     /**
      * @return array
      */
-    public function toNestedArray() {
+    public function toNestedArray()
+    {
         $result = [];
 
-        foreach($this as $item) {
+        foreach ($this as $item) {
             $result[] = $item->toMap();
         }
 
@@ -97,8 +94,9 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
      * @param callable $callback
      * @return FacetIndexItemsList
      */
-    public function each($callback) {
-        foreach($this as $row) {
+    public function each($callback)
+    {
+        foreach ($this as $row) {
             $callback($row);
         }
 
@@ -110,63 +108,67 @@ class FacetIndexItemsList extends ViewableData implements SS_List, Limitable {
      * @param string $titleField - the value field of the result array
      * @return Map
      */
-    public function map($keyField = 'ID', $titleField = 'Title') {
+    public function map($keyField = 'ID', $titleField = 'Title')
+    {
         return new Map($this, $keyField, $titleField);
     }
 
     /**
      * @return \ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this->toArray());
     }
 
     /**
      * @return int
      */
-    public function count() {
+    public function count()
+    {
         return $this->getResultSet()->getTotalHits();
     }
 
 
-    public function first() {
-
+    public function first()
+    {
     }
 
-    public function last() {
-
+    public function last()
+    {
     }
 
-    public function find($key, $value) {
-
+    public function find($key, $value)
+    {
     }
 
-    public function column($colName = "ID") {
-
+    public function column($colName = "ID")
+    {
     }
 
-    public function add($item) {
-
+    public function add($item)
+    {
     }
 
-    public function remove($item) {
-
+    public function remove($item)
+    {
     }
 
-    public function offsetExists($key) {
-
+    public function offsetExists($key)
+    {
     }
 
-    public function offsetGet($key) {
-
+    public function offsetGet($key)
+    {
     }
 
-    public function offsetSet($key, $value) {
+    public function offsetSet($key, $value)
+    {
         user_error("Can't alter items in a DataList using array-access", E_USER_ERROR);
     }
 
-    public function offsetUnset($key) {
+    public function offsetUnset($key)
+    {
         user_error("Can't alter items in a DataList using array-access", E_USER_ERROR);
     }
-
 }

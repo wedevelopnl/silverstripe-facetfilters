@@ -5,9 +5,13 @@ namespace TheWebmen\FacetFilters\Filters;
 use SilverStripe\Control\Controller;
 use TheWebmen\FacetFilters\Forms\GeoDistanceFilterField;
 
-class GeoDistanceFilter extends Filter {
+/**
+ * @property string PostFix
+ */
+class GeoDistanceFilter extends Filter
+{
     private static $table_name = 'TheWebmen_FacetFilters_Filters_GeoDistanceFilter';
-    
+
     private static $db = [
         'PostFix' => 'Varchar',
     ];
@@ -18,8 +22,13 @@ class GeoDistanceFilter extends Filter {
         $value = Controller::curr()->getRequest()->getVar($this->ID);
         $search = urlencode($value['Search'] . ($this->PostFix ? ' ' . $this->PostFix : null));
 
+        $mapsKey = self::config()->mapsKey;
+        if (!$mapsKey) {
+            throw new \Exception('Maps key is empty');
+        }
+
         if ($value['Search']) {
-            $data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$search}&key=AIzaSyDXgYLgmIgRgoUqwWH1BZwsO1YLMyNWqRA");
+            $data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$search}&key={$mapsKey}");
             $data = json_decode($data, true);
             if ($data['status'] == 'OK') {
                 $location = $data['results'][0]['geometry']['location'];
@@ -41,4 +50,8 @@ class GeoDistanceFilter extends Filter {
         return $field;
     }
 
+    public function getTitle()
+    {
+        return 'GeoDistance';
+    }
 }
