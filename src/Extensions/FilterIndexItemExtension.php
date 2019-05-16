@@ -22,7 +22,7 @@ class FilterIndexItemExtension extends DataExtension
             'ID' => ['type' => 'integer'],
             'ParentID' => ['type' => 'integer'],
             'Title' => ['type' => 'text'],
-            'Content' => ['type' => 'text']
+            'Content' => ['type' => 'text'],
         ];
 
         if (method_exists($this->owner, 'updateElasticaFields')) {

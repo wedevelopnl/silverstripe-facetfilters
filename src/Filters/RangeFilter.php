@@ -13,7 +13,7 @@ class RangeFilter extends Filter
         $value = Controller::curr()->getRequest()->getVar($this->ID);
         $value = is_array($value) ? $value : [];
 
-        if (isset($value['From']) && isset($value['To'])) {
+        if (isset($value['From']) && isset($value['To']) && is_numeric($value['From']) && is_numeric($value['To'])) {
             $query = new \Elastica\Query\Range($this->FieldName, [
                 'gte' => $value['From'],
                 'lte' => $value['To'],

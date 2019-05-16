@@ -4,27 +4,29 @@ namespace TheWebmen\FacetFilters\Extensions;
 
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\Extension;
+use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\PaginatedList;
 use TheWebmen\FacetFilters\Forms\FilterForm;
+use TheWebmen\FacetFilters\Forms\SortForm;
 use TheWebmen\FacetFilters\Model\FacetIndexItemsList;
 use TheWebmen\FacetFilters\Services\ElasticaService;
+use TheWebmen\FacetFilters\Sort\Item;
 
 /**
  * @property RequestHandler|FilterPageExtension owner
  */
 class FilterPageControllerExtension extends Extension
 {
+    private static $allowed_actions = [
+        'FilterForm',
+    ];
 
     /**
      * @var FacetIndexItemsList
      */
     protected $list;
 
-    private static $allowed_actions = [
-        'FilterForm'
-    ];
-
-    public function Form()
+    public function FilterForm()
     {
         $filters = [];
         foreach ($this->owner->Filters() as $filter) {
@@ -54,6 +56,13 @@ class FilterPageControllerExtension extends Extension
     {
         if (!$this->list) {
             $query = new \Elastica\Query();
+
+            $sortField = $this->owner->getRequest()->getVar(FilterForm::SORT_FIELD_NAME);
+            $sortOrderField = $this->owner->getRequest()->getVar(FilterForm::SORT_ORDER_NAME);
+            if (!empty($sortField) && !empty($sortOrderField)) {
+                $query->setSort([$sortField => $sortOrderField]);
+            }
+
             $bool = new \Elastica\Query\BoolQuery();
 
             foreach ($this->owner->Filters() as $filter) {
