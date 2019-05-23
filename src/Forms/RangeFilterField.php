@@ -11,12 +11,12 @@ class RangeFilterField extends FormField
 
     protected $toField = null;
 
-    public function __construct($name)
+    public function __construct($name, $title = null, $value = null)
     {
         $this->fromField = TextField::create($name . '[From]', 'Vanaf');
         $this->toField = TextField::create($name . '[To]', 'Tot');
 
-        parent::__construct($name, '');
+        parent::__construct($name, $title, $value);
     }
 
     public function setValue($value, $data = null)

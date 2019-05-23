@@ -25,7 +25,7 @@ class RangeFilter extends Filter
 
     public function getFormField()
     {
-        return new RangeFilterField($this->ID);
+        return new RangeFilterField($this->ID, $this->Name);
     }
 
     public function getTitle()
