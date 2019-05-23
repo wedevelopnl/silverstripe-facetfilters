@@ -4,6 +4,7 @@ namespace TheWebmen\FacetFilters\Filters;
 
 use SilverStripe\Control\Controller;
 use TheWebmen\FacetFilters\Forms\RangeFilterField;
+use TheWebmen\FacetFilters\Services\ElasticaService;
 
 class RangeFilter extends Filter
 {
@@ -25,11 +26,38 @@ class RangeFilter extends Filter
 
     public function getFormField()
     {
-        return new RangeFilterField($this->ID, $this->Name);
+        $minMax = $this->getMinMax();
+
+        return new RangeFilterField($this->ID, $this->Name, null, $minMax['min'], $minMax['max']);
     }
 
     public function getTitle()
     {
         return 'Range';
+    }
+
+    private function getMinMax()
+    {
+        $query = new \Elastica\Query([
+            'aggs' => [
+                'min' => [
+                    'min' => [
+                        'field' => $this->FieldName
+                    ],
+                ],
+                'max' => [
+                    'max' => [
+                        'field' => $this->FieldName
+                    ],
+                ],
+            ]
+        ]);
+
+        $response = ElasticaService::singleton()->search($query);
+
+        return [
+            'min' => $response->getAggregation('min')['value'],
+            'max' => $response->getAggregation('max')['value'],
+        ];
     }
 }
