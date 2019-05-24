@@ -48,12 +48,12 @@ class RangeFilterField extends FormField
 
     public function getFromValue()
     {
-        return $this->fromField->value;
+        return (!empty($this->fromField->value)) ? $this->fromField->value : $this->minValue;
     }
 
     public function getToValue()
     {
-        return $this->toField->value;
+        return (!empty($this->toField->value)) ? $this->toField->value : $this->maxValue;
     }
 
     public function getMinValue()
