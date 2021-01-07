@@ -53,7 +53,10 @@ class ElasticaService
 
     public function reindex()
     {
-        $this->index->delete();
+        if ($this->index->exists()) {
+            $this->index->delete();
+        }
+
         $this->index->create();
 
         $documents = [];
